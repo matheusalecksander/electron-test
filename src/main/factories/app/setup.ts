@@ -5,12 +5,13 @@ import installExtension, {
 } from 'electron-devtools-installer'
 
 import { PLATFORM, ENVIRONMENT } from 'shared/constants'
-
 export async function makeAppSetup(createWindow: () => Promise<BrowserWindow>) {
   if (ENVIRONMENT.IS_DEV) {
     await installExtension(REACT_DEVELOPER_TOOLS, {
       forceDownload: false,
     })
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err))
   }
 
   let window = await createWindow()

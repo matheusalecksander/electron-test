@@ -15,8 +15,8 @@ export async function MainWindow() {
     height: MAIN.WINDOW.HEIGHT,
     center: true,
     movable: true,
-    resizable: false,
-    alwaysOnTop: true,
+    resizable: true,
+    alwaysOnTop: false,
 
     webPreferences: {
       preload: join(__dirname, 'bridge.js'),
@@ -25,8 +25,11 @@ export async function MainWindow() {
       spellcheck: false,
     },
   })
-
-  ENVIRONMENT.IS_DEV && window.webContents.openDevTools({ mode: 'detach' })
+  try {
+    ENVIRONMENT.IS_DEV && window.webContents.openDevTools()
+  } catch (error) {
+    console.error(error)
+  }
 
   window.on('close', () =>
     BrowserWindow.getAllWindows().forEach((window) => window.destroy())
